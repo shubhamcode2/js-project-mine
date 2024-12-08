@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .carousel {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #carouselImage {
+            width: 400px;
+            height: 300px;
+            margin: 0 10px;
+            border-radius: 8px;
+        }
+
+        button {
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="carousel">
+        <button id="prevBtn">Previous</button>
+        <img id="carouselImage" src="" alt="Carousel Image" />
+        <button id="nextBtn">Next</button>
+    </div>
+
+</body>
+<script>
+    // Array of image URLs
+    const images = [
+        "https://images.unsplash.com/photo-1725603080015-7d16a86c45d9?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8NXx8fGVufDB8fHx8fA%3D%3D",
+        "https://images.unsplash.com/photo-1725375501406-8207474ec78b?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8MjB8fHxlbnwwfHx8fHw%3D",
+        "https://plus.unsplash.com/premium_photo-1712736395906-dd23bfe7f3b2?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8MjF8fHxlbnwwfHx8fHw%3D",
+        "https://images.unsplash.com/photo-1725017710391-a7766d56dfb8?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8MjN8fHxlbnwwfHx8fHw%3D"
+    ];
+
+    let currentIndex = 0;
+    const carouselImage = document.getElementById("carouselImage");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+
+    // Function to update the image source based on the current index
+    function updateImage() {
+        carouselImage.src = images[currentIndex];
+    }
+
+    // Show the first image initially
+    updateImage();
+
+    // Event listener for the Next button
+    nextBtn.addEventListener("click", () => {
+        currentIndex = (currentIndex + 1) % images.length;
+        updateImage();
+    });
+
+    // (currentIndex + 1) % images.length ensures the currentIndex wraps back to 0 once it exceeds the last image index.If currentIndex is at the last image (for example, index 3 in a 4-image array), then (3 + 1) % 4 becomes 4 % 4, which equals 0.
+    // This brings currentIndex back to 0, effectively looping to the first image.First Click:
+
+    // currentIndex = (0 + 1) % 4 → currentIndex = 1.
+    // updateImage() displays the image at index 1.
+    // Second Click:
+
+    // currentIndex = (1 + 1) % 4 → currentIndex = 2.
+    // updateImage() displays the image at index 2.
+    // Third Click:
+
+    // currentIndex = (2 + 1) % 4 → currentIndex = 3.
+    // updateImage() displays the image at index 3.
+    // Fourth Click (at the last image, index 3):
+
+    // currentIndex = (3 + 1) % 4 → currentIndex = 0.
+    // updateImage() displays the image at index 0 (looping back to the first image).
+
+    // console.log((currentIndex - 1 + images.length) % images.length);
+
+    // Event listener for the Previous button
+    prevBtn.addEventListener("click", () => {
+        currentIndex = (currentIndex - 1 + images.length) % images.length;  // Loop back to end
+        updateImage();
+    });
+
+
+
+
+    // Auto-slide functionality
+    let interval = setInterval(() => {
+        currentIndex = (currentIndex + 1) % images.length;
+        updateImage();
+    }, 1000);  // Change image every 3 seconds
+
+    // Pause auto-slide on mouseover
+    carouselImage.addEventListener("mouseover", () => {
+        clearInterval(interval);
+    });
+
+    // Resume auto-slide on mouseout
+    carouselImage.addEventListener("mouseout", () => {
+        interval = setInterval(() => {
+            currentIndex = (currentIndex + 1) % images.length;
+            updateImage();
+        }, 1000);
+    });
+
+// modulo operator
+
+    // no1 % (no1 + 1) === no1    --> 8%9 = 8, 8%51965151515 = 8;
+
+</script>
+
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quots</title>
+    <style>
+        *{
+            font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+        body{
+            background:var(--primary-color);
+        }
+        :root{
+            --primary-color : #edf2fc;
+            --secondary-color:#212121;
+        }
+        .darkTheme{
+            
+            --primary-color : #1b1a1a;
+            --secondary-color:#efebeb;
+        }
+            
+
+        
+        .quoteBox{
+            background:var(--primary-color);
+            width: 700px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            padding: 40px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 10px 20px 0px var(--secondary-color);
+        }
+        .quoteBox h1{
+            font-size: 32px;
+            margin-bottom: 40px;
+            position: relative;
+            color: var(--secondary-color);
+
+        }
+        .quoteBox h1::after{
+            content: '';
+            width: 75px;
+            height: 3px;
+            border-radius: 3px;
+            background:var(--secondary-color);
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+
+        }
+        .quoteBox blockquote{
+            font-size: 26px;
+            min-height: 110px;
+
+        }
+        .quoteBox blockquote::before, .quoteBox blockquote::after{
+            content: '"';
+        }
+        .quoteBox span{
+            display: block;
+            margin-top: 10px;
+            float: right;
+            position: relative;
+        }
+        .quoteBox span::before{
+            content: '';
+            width: 20px;
+            height: 2px;
+            background: var(--secondary-color);
+            position: absolute;
+            top: 50%;
+            left: -30%;
+        }
+        .quoteBox div{
+            width:100%;
+            margin-top: 50px;
+            display: flex;
+            justify-content: center;
+        }
+        .quoteBox button{
+            background:var(--secondary-color);
+            color:var(--primary-color);
+            border-radius: 25px;
+            border: 1px solid var(--secondary-color);
+            width: 150px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin:5px;
+            cursor: pointer;
+        }
+        #moonImg{
+            width: 100px;
+        }
+        #newQuote,#newQuoteAuther{
+            color: var(--secondary-color);
+        }
+        h2{
+            color: var(--secondary-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="quoteBox">
+        <img src="/assets/Moon-png-photo-free-download-750x730.png" alt="" id="moonImg">
+        <h1>Random Quotes </h1>
+        <blockquote id="newQuote">Loading..</blockquote>
+        <span id="newQuoteAuther">Loading..</span>
+        <div>
+            <button id="QuoteBtn">new Quote</button>
+            <button onclick="tweet()">Twitter</button>
+        </div>
+    </div>
+</body>
+<script src="script.js"></script>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QRCode</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        }
+        .main{
+            background: #000;
+            height:100vh;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 20px;
+        }
+        input{
+            padding: 10px;
+            font-size: 20px;
+            border-radius: 10px;
+            width: 300px;
+            
+        }
+        button{
+            
+            padding: 10px;
+            font-size: 20px;
+            border-radius: 10px;
+        }
+       
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <input type="text" name="test" id="text" placeholder="Enter element here.." required>
+        <button id="generateBtn" onclick="generateQr()">Generate</button>
+
+        <div id="showQr">
+            <img src="" id="QrImg">
+        </div>  
+
+    </div>
+</body>
+<script>
+    function generateQr() {
+        QrImg.src = " https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + document.querySelector("#text").value;
+    }
+</script>
+
+</html>

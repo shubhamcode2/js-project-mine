@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>email</title>
+    <style>
+        #Thank{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <h1>Email Validator</h1>
+        <form name="submit-to-google-sheet">
+            <input type="email" name="email" id="email">
+            <button type="submit" id="SubmitBtn">send</button>
+        </form>
+        <div id="Thank"><p>Thankyou for subscribe</p></div>
+    </div>
+</body>
+
+<script>
+    
+    document.querySelector("#SubmitBtn").addEventListener('click',()=>{
+        document.querySelector("#Thank").style.display="block";
+
+        
+        
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbwfEyJxuEhhtRUm4N6GbIYlU3QxCM1lnIcsP8ToFLLNJ-u-Fi2hldvFxZ405Bw78zBJ1g/exec'
+        const form = document.forms['submit-to-google-sheet']
+      
+        form.addEventListener('submit', e => {
+          e.preventDefault()
+          fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+            .then(response => console.log('Success!', response))
+            .catch(error => console.error('Error!', error.message))
+        })
+
+        
+    })
+    document.querySelector("#email").value = "";
+  </script>
+  
+</html>

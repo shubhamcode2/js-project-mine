@@ -1,0 +1,143 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>stopwatch</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: cursive;
+        }
+
+        .container {
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+
+        }
+
+        .watch {
+            display: flex;
+            gap: 10px;
+            margin: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>stopWatch</h1>
+        <div class="watch">
+            <div id="hr">00</div>
+            <div id="min">00</div>
+            <div id="sec">00</div>
+        </div>
+        <div class="btns">
+
+            <button id="start">start</button>
+            <button id="Pause" onclick="Pause()">Pause</button>
+            <button id="reset" onclick="reset()">reset</button>
+        </div>
+    </div>
+</body>
+<script>
+
+   function stopWatch(){
+    
+   }
+
+    /
+</script>
+
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Stopwatch</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+
+        #time {
+            font-size: 2em;
+            margin: 20px;
+        }
+
+        button {
+            margin: 5px;
+            padding: 10px 20px;
+            font-size: 1em;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="time"></div>
+    <button onclick="start()">Start</button>
+    <button onclick="stop()">Stop</button>
+    <button onclick="reset()">Reset</button>
+
+    <script>
+        let seconds = 0;
+        let minutes = 0;
+        let hrs = 0;
+        let timer;
+
+        function start() {
+            if (!timer) {
+                timer = setInterval(updateTime, 1000);
+            }
+        }
+
+        function stop() {
+            clearInterval(timer);
+            timer = null;
+        }
+
+        function reset() {
+            stop();
+            seconds = 0;
+            minutes = 0;
+            hrs = 0;
+            document.getElementById('time').textContent = "00:00:00";
+        }
+
+        function updateTime() {
+            seconds++;
+            if (seconds === 4) {
+                seconds = 0;
+                minutes++;
+                if (minutes === 3) {
+                    minutes = 0;
+                    hrs++;
+                }
+            }
+
+            document.getElementById('time').textContent =
+                `${String(hrs).padStart(2, '0')}
+                ${String(minutes).padStart(2, '0')}
+                ${String(seconds).padStart(2, '0')}`;
+        }
+    </script>
+</body>
+
+
+</html>

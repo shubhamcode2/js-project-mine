@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes</title>
+    <style>
+        * {
+            padding: 0px;
+            margin: 0px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .container {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #ab1010a1, #2b0b46d2);
+            padding-top: 4%;
+            padding-left: 10%;
+        }
+
+        h1 {
+            color: #fff;
+            font-size: 40px;
+            margin-top: 15px;
+            margin-bottom: 20px;
+            background: rgb(204, 148, 44);
+            padding: 10px;
+
+        }
+
+        #addNotesBtn {
+            font-size: 15px;
+            outline: none;
+            border-radius: 25px;
+            background-color: rgb(220, 139, 24);
+            padding: 10px;
+            color: #ffffff;
+        }
+
+        .InputBox {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            background: #fff;
+            color: #080808;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+
+        .InputBox img {
+            width: 20px;
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Notes</h1>
+
+        <button id="addNotesBtn">Add Note</button>
+        <div id="showNotes">
+            <!-- <p contenteditable="true" class="InputBox">
+                <img src="/assets/png-transparent-delete-key-logo-button-text-rectangle-logo-thumbnail.png"
+                    alt="delete img">
+            </p> -->
+        </div>
+    </div>
+</body>
+<script>
+    const showNotes = document.querySelector("#showNotes");
+    const addNotesBtn = document.querySelector("#addNotesBtn");
+    let notes = document.querySelectorAll(".InputBox");
+
+
+    function showNotesLocalStorage() {
+        showNotes.innerHTML = localStorage.getItem("notes")
+    }
+    showNotesLocalStorage();
+    function updateStorage() {
+        localStorage.setItem("notes", showNotes.innerHTML)
+    }
+
+    addNotesBtn.addEventListener('click', () => {
+
+        let InputNotes = document.createElement("p");
+        let image = document.createElement("img");
+        InputNotes.className = "InputBox";
+        InputNotes.setAttribute("contenteditable", "true");
+        image.src = "/assets/png-transparent-delete-key-logo-button-text-rectangle-logo-thumbnail.png";
+        showNotes.appendChild(InputNotes).appendChild(image);
+        updateStorage();
+
+    })
+
+    showNotes.addEventListener('click', function (e) {
+        if (e.target.tagName === 'IMG') {
+            e.target.parentElement.remove();
+            updateStorage();
+        } else if (e.target.tagName === "P") {
+            notes = document.querySelectorAll(".InputBox");
+            notes.forEach((nt => {
+                nt.onkeyup = function () {
+                    updateStorage();
+                }
+            }))
+        }
+    })
+
+    document.addEventListener("keydown", event =>{
+        if(event.key === "Enter"){
+            document.execCommand("insertLineBreak");
+            event.preventDefault();
+        }
+    })
+    //document.execCommand("insertLineBreak"); inserts a line break instead of creating a new paragraph, which is the default behavior when pressing Enter in a contenteditable element.
+
+</script>
+
+</html>

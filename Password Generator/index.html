@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>random password generator</title>
+</head>
+
+<body
+    style="background-color: #313131; display: flex; justify-content: center; align-items: center; flex-direction: column; margin: 200px;">
+
+
+    <div class="show">
+        <input type="text" name="password" id="password" readonly style="outline: none; font-size: 25px; padding: 15px">
+        <button id="copy" style="outline: none; font-size: 25px; padding: 15px; margin-left: 9px;">copy
+            password</button>
+
+    </div>
+    <button id="generate" style=" font-size: 25px; margin-top: 20px; padding: 15px">generate password</button>
+</body>
+<script>
+
+    document.querySelector("#generate").addEventListener('click', GeneratePassword)
+
+    function GeneratePassword() {
+        let length = 12;
+        let chars = "abcdefghijklmnopqrstuvABCDEFGHIJKLMNOPQRSTUV123456789~!@#$%^&*?/|\+-<>'`:;.,";
+        let password = '';
+        let charsIndex;
+        for (let i = 0; i < length; i++) {
+            charsIndex = Math.floor(Math.random() * chars.length);
+            let rams = chars[charsIndex];
+            password += rams;
+        }
+        document.querySelector("#password").value = password;
+    }
+
+    function copyPassword() {
+        password.select();
+        document.execCommand("copy")
+    }
+    document.querySelector("#copy").addEventListener('click', copyPassword)
+</script>
+
+</html>

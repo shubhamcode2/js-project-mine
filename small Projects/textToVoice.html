@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> TextToVoice </title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
+
+        body {
+            background: #000;
+            color: white;
+        }
+
+        .hero {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100%;
+            flex-direction: column;
+        }
+
+        #text {
+            width: 600px;
+            height: 200px;
+            outline: none;
+            box-shadow: 9px 10px 1000px rgba(64, 63, 63, 0.51);
+            margin: 20px;
+            background: transparent;
+            padding: 10px;
+            color: rgb(255, 255, 255);
+            font-size: 20px;
+        }
+
+        button {
+            font-size: 18px;
+            padding: 5px;
+            margin: 5px;
+            cursor: pointer;
+        }
+
+        #lang {
+            font-size: 18px;
+            padding: 10px;
+            margin: 5px;
+            width: 400px;
+        }
+
+        select {
+            appearance: none;
+            outline: 0;
+            background-image: url(/assets/unchecked.png);
+            background-repeat: no-repeat;
+            background-size: 15px;
+            background-position-x: calc(100% - 15px);
+            background-position-y: 15px;
+
+
+        }
+    </style>
+</head>
+
+<body>
+    <div class="hero">
+        <h1>Convert text to speech</h1>
+        <div class="input">
+            <textarea name="text" id="text" placeholder="Enter text here.."></textarea>
+        </div>
+        <div class="langSubmit">
+            <select name="lang" id="lang">
+
+            </select>
+            <button>Listen</button>
+        </div>
+    </div>
+</body>
+<script>
+    let speech = new SpeechSynthesisUtterance();
+    
+    let voices = [];
+    let voiceSelect = document.querySelector("select");
+
+    window.speechSynthesis.onvoiceschanged = () => {
+        voices = window.speechSynthesis.getVoices();
+        speech.voice = voices[0];
+
+        voices.forEach((voice, i) => (voiceSelect.options[i] = new Option(voice.name, i)));
+    };
+
+    voiceSelect.addEventListener('change', () => {
+        speech.voice = voices[voiceSelect.value];
+    });
+
+    document.querySelector("button").addEventListener('click', () => {
+        speech.text = document.querySelector("textarea").value;
+        window.speechSynthesis.speak(speech);
+    })
+</script>
+
+</html>

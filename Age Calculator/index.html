@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Age Calculator</title>
+    <style>
+        * {
+            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+            padding: 0%;
+            margin: 0%;
+        }
+
+        .container {
+            background: linear-gradient(230deg, rgb(179, 173, 173), rgb(43, 168, 179));
+            padding: 10px;
+            min-height: 100vh;
+            max-width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            flex-direction: column;
+            padding-left: 30px;
+        }
+
+        h1 {
+            font-size: 8rem;
+            margin-bottom: 10px;
+
+
+        }
+
+        .InputDob input {
+            font-size: 30px;
+            padding: 5px;
+            border-radius: 10px;
+            outline: none;
+            /* position: relative; */
+        }
+
+        /* .InputDob input::-webkit-calendar-picker-indicator{
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: auto;
+            height: auto;
+            position: absolute;
+            background-position: calc(100%-100%);
+            background-size: 30px;
+            cursor: pointer;
+        } */
+
+        button {
+            font-size: 30px;
+            border-radius: 10px;
+            padding: 5px;
+        }
+
+        p {
+            margin-top: 20px;
+            font-size: 20px;
+
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Age <br>Calculator</h1>
+        <div class="InputDob">
+            <input type="date" name="dob" id="dob">
+            <button id="calculateBtn">submit</button>
+
+        </div>
+        <div class="displayAge">
+            <p></p>
+        </div>
+    </div>
+</body>
+<script>
+    document.getElementById("calculateBtn").addEventListener("click", () => {
+        const dob = document.getElementById("dob").value;
+        if (!dob) return alert("Please select a date of birth");
+
+        const birthDate = new Date(dob);
+        const today = new Date();
+
+
+        let years = today.getFullYear() - birthDate.getFullYear();
+        let months = today.getMonth() - birthDate.getMonth();
+        let days = today.getDate() - birthDate.getDate();
+
+        if (days < 0) {
+            months--;
+            days += new Date(today.getFullYear(), today.getMonth(), 0).getDate();
+        }
+
+        if (months < 0) {
+            years--;
+            months += 12;
+        }
+
+        document.querySelector(".displayAge p").innerText =
+            `${years} year${years !== 1 ? "s" : ""} ${months} month${months !== 1 ? "s" : ""} ${days} day${days !== 1 ? "s" : ""}`;
+    });
+
+
+
+</script>
+
+</html>
