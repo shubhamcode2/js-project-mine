@@ -81,7 +81,9 @@
     function showNotesLocalStorage() {
         showNotes.innerHTML = localStorage.getItem("notes")
     }
+
     showNotesLocalStorage();
+    
     function updateStorage() {
         localStorage.setItem("notes", showNotes.innerHTML)
     }
