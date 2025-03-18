@@ -1,41 +1,148 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>employee</title>
 </head>
-<body>
-    <h1>Generate employee / delete employee</h1>
-    <button class="generate">Generate</button>
-    <button class="delete">Delete</button>
-    <div class="employee"></div>
+<style>
+    body {
+        /* display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center; */
+        background: #575656;
+    }
 
+    .btn1 {
+        background-color: green;
+        color: white;
+        padding: 10px;
+        width: 100px;
+        border-radius: 10px;
+    }
+
+    .btn2 {
+        background-color: green;
+        color: white;
+        padding: 10px;
+        width: 100px;
+        border-radius: 10px;
+    }
+
+    .btn3 {
+        background-color: green;
+        color: white;
+        padding: 10px;
+        border-radius: 10px;
+        width: 100px;
+
+    }
+    input{
+        padding: 10px;
+        width: 200px;
+        border: none;
+        outline: none;
+        border-radius: 10px;
+        font-size: 20px;
+    }
+    li{
+        color: white;
+        font-size: 20px;
+
+    }
+    ul{
+        height: 500px;
+        overflow: auto;
+        background-color: rgb(38, 23, 51);
+        list-style:decimal;
+    }
+</style>
+
+<body>
+    <button class="btn1">click</button>
+    <ul class="ul"></ul>
+    <hr>
+    <input type="text" name="name" id="name">
+
+    <button class="btn2">click</button>
+    <hr>
+    <button class="btn3">delete</button>
 </body>
 <script>
 
-document.querySelector(".generate").addEventListener("click", () => {
-    fetch(`https://67d6ffcc9d5e3a101529adcb.mockapi.io/api/emplo/employee`)
-    .then(res => res.json())
-    .then(data => {
-
-let some = data.map((employee)=>{
-    return employee.name
-})
-
-        document.querySelector(".employee").innerHTML = some;
-    })
-})
+    const url = "https://67d6ffcc9d5e3a101529adcb.mockapi.io/api/emplo/emp";
 
 
-document.querySelector(".delete").addEventListener("click", () => {
-    fetch(`https://67d6ffcc9d5e3a101529adcb.mockapi.io/api/emplo/employee`, {
-        method: "DELETE"
-    })
-    .then(res => res.json())
-    .then(data => {
-        console.log(data);
-    })
-})
+    // get
+    document.querySelector(".btn1").addEventListener("click", () => {
+        fetch(url)
+            .then((res) => res.json())
+            .then((data) => {
+                // console.log(data);
+                document.querySelector("ul").innerHTML = "";
+
+                data.forEach((el) =>{ 
+                        let list  = document.createElement("li");
+                        list.textContent = el.name;
+                        document.querySelector("ul").appendChild(list);
+                    }
+                );
+            });
+    });
+
+
+    // document.querySelector(".btn1").addEventListener("click", () => {
+    //         fetch(url)
+    //             .then((res) => res.json())
+    //             .then((data) => {
+    //                 // console.log(data);
+    //                 const ul = document.querySelector("ul");
+    //                 ul.innerHTML = ""; // Clear previous list items
+
+    //                 data.forEach((el) => {
+    //                     let list = document.createElement("li");
+    //                     list.textContent = el.name;
+    //                     ul.appendChild(list);
+    //                 });
+    //             })
+    //             .catch((error) => console.error("Error fetching data:", error));
+    //     });
+
+    //post
+    document.querySelector(".btn2").addEventListener("click", () => {
+        fetch(url, {
+            method: "POST",
+            body: JSON.stringify({
+                name: document.querySelector("#name").value,
+                age: 23,
+                gender: "male",
+            }),
+            headers: {
+                "Content-type": "application/json",
+            },
+        }).then((res) => {
+            console.log(res);
+        })
+
+    });
+
+    //delete the last element
+    function deleteEmployee() {
+        const res = fetch(url);
+        res.then((data) => {
+            data.json().then((el) => {
+                let id = el[el.length - 1].id;
+                fetch(`${url}/${id}`, {
+                    method: "DELETE",
+                });
+            });
+        });
+
+    }
+    document.querySelector(".btn3").addEventListener("click", deleteEmployee);
+
 </script>
+
 </html>

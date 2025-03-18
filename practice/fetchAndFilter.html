@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>fetch and filter&Sort</title>
+</head>
+<style>
+    * {
+    font-family: 'Poppins', sans-serif;
+    background: #1e1e1e;
+    color: white;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* Title */
+h1 {
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    background: linear-gradient(to right, #ff416c, #ff4b2b);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Main Container */
+#container {
+    display: flex;
+    width: 95%;
+    max-width: 1200px;
+    height: 90vh;
+    background: #252525;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 5px 20px rgba(255, 65, 108, 0.3);
+    gap: 20px;
+}
+
+/* Left Section - Form Controls */
+#employees {
+    flex: 1;
+    padding: 20px;
+    border-right: 2px solid #ff416c;
+    text-align: center;
+}
+
+#employees h2 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+}
+
+input, select, button {
+    width: 90%;
+    padding: 12px;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    margin: 10px 0;
+    transition: all 0.3s ease;
+}
+
+input {
+    background: #333;
+    color: white;
+    border: 1px solid #ff416c;
+}
+
+input:focus {
+    background: #444;
+    border-color: #ff4b2b;
+}
+
+button {
+    background: linear-gradient(to right, #ff416c, #ff4b2b);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 3px 10px rgba(255, 65, 108, 0.5);
+}
+
+/* Right Section - Employee List */
+#empList {
+    flex: 2;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 20px;
+    overflow-y: auto;
+    width:100vh;
+}
+
+/* Employee List Grid */
+#empListUL {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+    width: 100%;
+}
+
+/* Employee Card */
+.card {
+    background: #333;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 1rem;
+    box-shadow: 0px 3px 10px rgba(255, 65, 108, 0.2);
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.card:hover {
+    transform: scale(1.05);
+    background: #ff416c;
+    color: white;
+    box-shadow: 0px 3px 15px rgba(255, 65, 108, 0.5);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.card {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+</style>
+
+<body>
+    <div>
+        <h1>filter and sort Employees </h1>
+
+        <div id="container">
+            <div id="employees">
+                <h2>employees</h2>
+
+                <div>
+                    <input type="text" id="searchInput" placeholder="search by name">
+                    <button id="searchBtn">search</button>
+                </div>
+
+                <br>
+
+                <div>
+                    <select name="sort" id="sort">
+                        <option value="salaryHigh">High to low Salary</option>
+                        <option value="salaryLow">Low to high Salary</option>
+                        <option value="name">Name </option>
+                    </select>
+                    <button id="sortBtn">sort</button>
+                </div>
+                <br>
+
+                <div>
+                    <select name="filter" id="filter">
+                        <option value="name">Name</option>
+                        <option value="age">age</option>
+                        <option value="gender">gender</option>
+                    </select>
+
+                    <input type="text" id="filterValue" placeholder="filter value">
+                    <button id="filterBtn">filter</button>
+
+                </div>
+            </div>
+
+
+            <div id="empList">
+                <ul id="empListUL">
+
+                </ul>
+            </div>
+
+
+        </div>
+
+    </div>
+</body>
+<script>
+    const url = "https://67d6ffcc9d5e3a101529adcb.mockapi.io/api/emplo/emp";
+    let employees = []; // Store data globally
+
+    // Fetch data from API
+    function getData() {
+        fetch(url)
+            .then((res) => res.json())
+            .then((data) => {
+                employees = data; // Store data globally
+                displayData(data);
+            });
+    }
+
+    // Function to display data
+    function displayData(data) {
+        const ul = document.querySelector("#empListUL");
+        ul.innerHTML = ""; // Clear previous list items
+
+        data.forEach((el) => {
+            let list = document.createElement("div");
+            list.setAttribute("class", "card");
+            list.textContent = `${el.id} . ${el.name} , ${el.age} ,  ${el.gender} , ${el.salary}/Day `;
+            ul.appendChild(list);
+        });
+    }
+
+    // ✅ Sorting Functionality
+    document.getElementById("sortBtn").addEventListener("click", () => {
+        const sortBy = document.getElementById("sort").value;
+        let sortedData = [...employees]; // Clone data to avoid modifying the original
+
+        if (sortBy === "salaryHigh") {
+            sortedData.sort((a, b) => b.salary - a.salary); // High to Low Salary
+        } else if (sortBy === "salaryLow") {
+            sortedData.sort((a, b) => a.salary - b.salary); // Low to High Salary
+        } else if (sortBy === "name") {
+            sortedData.sort((a, b) => a.name.localeCompare(b.name)); // Sort by Name
+        }
+
+        displayData(sortedData); // Update UI with sorted data
+    });
+
+    // ✅ Filtering Functionality
+    document.getElementById("filterBtn").addEventListener("click", () => {
+        const filterBy = document.getElementById("filter").value;
+        const filterValue = document.getElementById("filterValue").value.toLowerCase();
+
+        let filteredData = employees.filter((el) => {
+            if (filterBy === "age") {
+                return el.age == filterValue;
+            } else if (filterBy === "gender") {
+                return el.gender.toLowerCase() === filterValue;
+            }
+            return true;
+        });
+
+        displayData(filteredData); // Update UI with filtered data
+    });
+
+    // ✅ Search Functionality
+    document.getElementById("searchInput").addEventListener("input", () => {
+        const searchText = document.getElementById("searchInput").value.toLowerCase();
+        document.querySelectorAll(".card").forEach((list) => {
+            list.style.display = list.textContent.toLowerCase().includes(searchText) ? "flex" : "none";
+        });
+    });
+
+    getData(); // Fetch data on page load
+
+</script>
+
+</html>
